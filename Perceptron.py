@@ -94,5 +94,8 @@ w, iterations = perceptron(Xbar, y, w_init)
 # Visualize the results
 visualize_perceptron(X, y, w, iterations)
 
+
 print(f"\nNumber of iterations: {iterations}")
+
+
 
