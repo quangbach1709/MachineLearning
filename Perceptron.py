@@ -1,28 +1,27 @@
 import numpy as np
 def predict(w, X):
-    ''' predict label of each row of X, given w
-    X: a 2-d numpy array of shape (N, d), each row is a datapoint
-    w: a 1-d numpy array of shape (d)
+    ''' dự đoán nhãn cho mỗi hàng của X, dựa trên w
+    X: một mảng numpy 2 chiều có kích thước (N, d), mỗi hàng là một điểm dữ liệu
+    w: một mảng numpy 1 chiều có kích thước (d)
     '''
     return np.sign(X.dot(w))
 def perceptron(X, y, w_init):
-    ''' perform perceptron learning algorithm
-    X: a 2-d numpy array of shape (N, d), each row is a datapoint
-    y: a 1-d numpy array of shape (N), label of each row of X. y[i] = 1/-1
-    w_init: a 1-d numpy array of shape (d)
+    ''' thực hiện thuật toán học perceptron
+    X: một mảng numpy 2 chiều có kích thước (N, d), mỗi hàng là một điểm dữ liệu
+    y: một mảng numpy 1 chiều có kích thước (N), nhãn của mỗi hàng của X. y[i] = 1/-1
+    w_init: một mảng numpy 1 chiều có kích thước (d)
     '''
     w = w_init
     while True:
         pred = predict(w, X)
-        # find indexes of misclassified points
+        # tìm các chỉ số của các điểm được phân loại sai
         mis_idxs = np.where(np.equal(pred, y) == False)[0]
-        # number of misclassified points
         num_mis = mis_idxs.shape[0]
-        if num_mis == 0:  # no more misclassified points
+        if num_mis == 0:  # không còn điểm dữ liệu nào được phân loại sai
             return w
-        # random pick one misclassified point
+        # chọn ngẫu nhiên một điểm dữ liệu được phân loại sai
         random_id = np.random.choice(mis_idxs, 1)[0]
-        # update w
+        # cập nhật trọng số w
         w = w + y[random_id] * X[random_id]
 
 means = [[-1, 0], [1, 0]]
@@ -38,15 +37,15 @@ w_init = np.random.randn(Xbar.shape[1])
 
 w = perceptron(Xbar, y, w_init)
 
-# Predict labels for the training data
+# dự đoán nhãn cho dữ liệu huấn luyện
 y_pred = predict(w, Xbar)
 
-# Print the predictions
+# in ra dự đoán
 print("Predictions:")
 for i, pred in enumerate(y_pred):
     print(f"Data point {i + 1}: {'Positive' if pred > 0 else 'Negative'}")
 
-# Calculate and print accuracy
+# tính và in ra độ chính xác
 accuracy = np.mean(y_pred == y)
 print(f"\nAccuracy: {accuracy * 100:.2f}%")
 
@@ -55,11 +54,11 @@ import matplotlib.pyplot as plt
 def visualize_perceptron(X, y, w, iterations):
     plt.figure(figsize=(10, 8))
     
-    # Plot data points
+    # vẽ dữ liệu
     plt.scatter(X[y == 1, 0], X[y == 1, 1], c='b', label='Positive')
     plt.scatter(X[y == -1, 0], X[y == -1, 1], c='r', label='Negative')
     
-    # Plot decision boundary
+    # vẽ đường phân chia
     x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
     y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
     xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.1),
@@ -74,7 +73,7 @@ def visualize_perceptron(X, y, w, iterations):
     plt.legend()
     plt.show()
 
-# Modify the perceptron function to return both w and iterations
+# sửa đổi hàm perceptron để trả về cả w và số lần lặp
 def perceptron(X, y, w_init):
     w = w_init
     iterations = 0
@@ -88,12 +87,11 @@ def perceptron(X, y, w_init):
         random_id = np.random.choice(mis_idxs, 1)[0]
         w = w + y[random_id] * X[random_id]
 
-# Run the modified perceptron algorithm
+# chạy thuật toán perceptron đã sửa đổi
 w, iterations = perceptron(Xbar, y, w_init)
 
-# Visualize the results
+# vẽ kết quả
 visualize_perceptron(X, y, w, iterations)
-
 
 print(f"\nNumber of iterations: {iterations}")
 
