@@ -129,6 +129,6 @@ actual = [row[-1] for row in test_set]
 
 # Tính độ chính xác
 accuracy = accuracy_metric(actual, predictions)
-print(f'Predictions: {predictions}')
-print(f'Actual: {actual}')
-print(f'Accuracy: {accuracy:.2f}%')
+print(f'Dự đoán: {predictions}')
+print(f'Thực tế: {actual}')
+print(f'Độ chính xác: {accuracy:.2f}%')
